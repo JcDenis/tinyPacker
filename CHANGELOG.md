@@ -1,5 +1,9 @@
-tinyPacker 0.3 - 2021.0818
- * cleaned code and adopt PSR2
+0.4 -  2021.09.02
+- clean up code
+- add dcstore.xml
 
-tinyPacker 0.1 - 2010.10.22
- * first version
+0.3 - 2021.08.18
+- cleaned code and adopt PSR2
+
+0.1 - 2010.10.22
+- first version
