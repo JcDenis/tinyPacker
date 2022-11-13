@@ -1,4 +1,7 @@
-0.4 -  2021.09.02
+0.5 - 2022.11.12
+- require Dotclear 2.24
+
+0.4 - 2021.09.02
 - clean up code
 - add dcstore.xml
 

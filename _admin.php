@@ -15,15 +15,15 @@ if (!defined('DC_CONTEXT_ADMIN')) {
     return null;
 }
 
-if (!tinyPacker::repositoryDir($core)) {
+if (!tinyPacker::repositoryDir()) {
     return null;
 }
 
-$core->addBehavior(
+dcCore::app()->addBehavior(
     'adminModulesListGetActions',
     ['tinyPacker', 'adminModulesGetActions']
 );
-$core->addBehavior(
+dcCore::app()->addBehavior(
     'adminModulesListDoActions',
     ['tinyPacker', 'adminModulesDoActions']
 );
@@ -141,13 +141,12 @@ class tinyPacker
 
     /**
      * Check and create directories used by packer
-     * @param  object $core        dcCore instance
      * @return string|boolean      Cleaned path or false on error
      */
-    public static function repositoryDir($core)
+    public static function repositoryDir()
     {
         $dir = path::real(
-            $core->blog->public_path . '/' . tinyPacker::$sub_dir, 
+            dcCore::app()->blog->public_path . '/' . tinyPacker::$sub_dir, 
             false
         );
 
