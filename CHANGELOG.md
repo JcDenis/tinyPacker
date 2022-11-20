@@ -1,5 +1,5 @@
-0.5 - 2022.11.12
-- require Dotclear 2.24
+0.5 - 2022.11.20
+- fix compatibility with Dotclear 2.24 (required)
 
 0.4 - 2021.09.02
 - clean up code

@@ -1,16 +1,15 @@
 <?php
 /**
  * @brief tinyPacker, a plugin for Dotclear 2
- * 
+ *
  * @package Dotclear
  * @subpackage Plugin
- * 
+ *
  * @author Jean-Christian Denis
- * 
+ *
  * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-
 if (!defined('DC_CONTEXT_ADMIN')) {
     return null;
 }
@@ -50,12 +49,12 @@ class tinyPacker
      */
     public static function adminModulesGetActions($list, $id, $_)
     {
-        if ($list->getList() != 'plugin-activate' 
+        if ($list->getList() != 'plugin-activate'
          && $list->getList() != 'theme-activate') {
             return null;
         }
 
-        return 
+        return
         '<input type="submit" name="tinypacker[' .
         html::escapeHTML($id) . ']" value="Pack" />';
     }
@@ -71,19 +70,21 @@ class tinyPacker
     public static function adminModulesDoActions($list, $modules, $type)
     {
         # Pack action
-        if (empty($_POST['tinypacker']) 
+        if (empty($_POST['tinypacker'])
          || !is_array($_POST['tinypacker'])) {
             return null;
         }
 
         $modules = array_keys($_POST['tinypacker']);
-        $id = $modules[0];
+        $id      = $modules[0];
 
         # Repository directory
-        if (($root = self::repositoryDir($list->core)) === false) {
+        if (($root = self::repositoryDir()) === false) {
             throw new Exception(
-                __('Destination directory is not writable.'
-            ));
+                __(
+                    'Destination directory is not writable.'
+                )
+            );
         }
 
         # Module to pack
@@ -93,7 +94,7 @@ class tinyPacker
         $module = $list->modules->getModules($id);
 
         # Excluded files and dirs
-        $exclude = array(
+        $exclude = [
             '\.',
             '\.\.',
             '__MACOSX',
@@ -103,26 +104,25 @@ class tinyPacker
             'CVS',
             '\.directory',
             '\.DS_Store',
-            'Thumbs\.db'
-        );
+            'Thumbs\.db',
+        ];
 
         # Packages names
-        $files = array(
+        $files = [
             $type . '-' . $id . '.zip',
-            $type . '-' . $id . '-' . $module['version'] . '.zip'
-        );
+            $type . '-' . $id . '-' . $module['version'] . '.zip',
+        ];
 
         # Create zip
-        foreach($files as $f) {
-
+        foreach ($files as $f) {
             @set_time_limit(300);
             $fp = fopen($root . '/' . $f, 'wb');
 
             $zip = new fileZip($fp);
 
-            foreach($exclude AS $e) {
+            foreach ($exclude as $e) {
                 $zip->addExclusion(sprintf(
-                    '#(^|/)(%s)(/|$)#', 
+                    '#(^|/)(%s)(/|$)#',
                     $e
                 ));
             }
@@ -146,7 +146,7 @@ class tinyPacker
     public static function repositoryDir()
     {
         $dir = path::real(
-            dcCore::app()->blog->public_path . '/' . tinyPacker::$sub_dir, 
+            dcCore::app()->blog->public_path . '/' . tinyPacker::$sub_dir,
             false
         );
 
@@ -155,11 +155,10 @@ class tinyPacker
                 files::makeDir($dir, true);
             }
             if (is_writable($dir)) {
-
                 return $dir;
             }
+        } catch(Exception $e) {
         }
-        catch(Exception $e) {}
 
         return false;
     }
