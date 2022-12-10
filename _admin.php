@@ -17,16 +17,14 @@ if (!defined('DC_CONTEXT_ADMIN')) {
 dcCore::app()->addBehavior(
     'adminModulesListGetActions',
     function ($list, $id, $_) {
-        if (!in_array($list->getList(), [
+        return in_array($list->getList(), [
             'plugin-activate',
             'theme-activate',
-        ])) {
-            return null;
-        }
-
-        return
-        '<input type="submit" name="tinypacker[' .
-        html::escapeHTML($id) . ']" value="Pack" />';
+        ]) ? sprintf(
+            '<input type="submit" name="%s[%s]" value="Pack" />',
+            basename(__DIR__),
+            html::escapeHTML($id)
+        ) : null;
     }
 );
 
@@ -34,19 +32,14 @@ dcCore::app()->addBehavior(
     'adminModulesListDoActions',
     function ($list, $modules, $type) {
         # Pack action
-        if (empty($_POST['tinypacker'])
-         || !is_array($_POST['tinypacker'])) {
+        if (empty($_POST[basename(__DIR__)])
+         || !is_array($_POST[basename(__DIR__)])) {
             return null;
         }
 
-        $modules = array_keys($_POST['tinypacker']);
-        $id      = $modules[0];
-
         # Repository directory
         $dir = path::real(
-            dcCore::app()->blog->public_path . '/' . (
-                defined('TINYPACKER_SUBDIR') ? TINYPACKER_SUBDIR : 'packages'
-            ),
+            dcCore::app()->blog->public_path . '/packages',
             false
         );
 
@@ -58,6 +51,9 @@ dcCore::app()->addBehavior(
         }
 
         # Module to pack
+        $modules = array_keys($_POST[basename(__DIR__)]);
+        $id      = $modules[0];
+
         if (!$list->modules->moduleExists($id)) {
             throw new Exception(__('No such module.'));
         }
