@@ -14,43 +14,13 @@ if (!defined('DC_CONTEXT_ADMIN')) {
     return null;
 }
 
-if (!tinyPacker::repositoryDir()) {
-    return null;
-}
-
 dcCore::app()->addBehavior(
     'adminModulesListGetActions',
-    ['tinyPacker', 'adminModulesGetActions']
-);
-dcCore::app()->addBehavior(
-    'adminModulesListDoActions',
-    ['tinyPacker', 'adminModulesDoActions']
-);
-
-/**
- * @ingroup DC_PLUGIN_TINYPACKER
- * @brief Quick create packages of modules from admin to public dir.
- * @since 2.6
- */
-class tinyPacker
-{
-    /**
-     * Blog's public sub-directory where to put packages
-     * @var string
-     */
-    public static $sub_dir = 'packages';
-
-    /**
-     * Add button to create package to modules lists
-     * @param  object $list adminModulesList instance
-     * @param  string $id    Module id
-     * @param  arrray $_    Module properties
-     * @return string       HTML submit button
-     */
-    public static function adminModulesGetActions($list, $id, $_)
-    {
-        if ($list->getList() != 'plugin-activate'
-         && $list->getList() != 'theme-activate') {
+    function ($list, $id, $_) {
+        if (!in_array($list->getList(), [
+            'plugin-activate',
+            'theme-activate',
+        ])) {
             return null;
         }
 
@@ -58,17 +28,11 @@ class tinyPacker
         '<input type="submit" name="tinypacker[' .
         html::escapeHTML($id) . ']" value="Pack" />';
     }
+);
 
-    /**
-     * Create package on modules lists action
-     * @param  object $list      adminModulesList instance
-     * @param  array $modules    Selected modules ids
-     * @param  string $type      List type (plugins|themes)
-     * @throws Exception         If no public dir or module
-     * @return null              Null
-     */
-    public static function adminModulesDoActions($list, $modules, $type)
-    {
+dcCore::app()->addBehavior(
+    'adminModulesListDoActions',
+    function ($list, $modules, $type) {
         # Pack action
         if (empty($_POST['tinypacker'])
          || !is_array($_POST['tinypacker'])) {
@@ -79,12 +43,18 @@ class tinyPacker
         $id      = $modules[0];
 
         # Repository directory
-        if (($root = self::repositoryDir()) === false) {
-            throw new Exception(
-                __(
-                    'Destination directory is not writable.'
-                )
-            );
+        $dir = path::real(
+            dcCore::app()->blog->public_path . '/' . (
+                defined('TINYPACKER_SUBDIR') ? TINYPACKER_SUBDIR : 'packages'
+            ),
+            false
+        );
+
+        if (!is_dir($dir)) {
+            files::makeDir($dir, true);
+        }
+        if (!is_writable($dir)) {
+            throw new Exception(__('Destination directory is not writable.'));
         }
 
         # Module to pack
@@ -105,6 +75,7 @@ class tinyPacker
             '\.directory',
             '\.DS_Store',
             'Thumbs\.db',
+            '_disabled',
         ];
 
         # Packages names
@@ -116,7 +87,7 @@ class tinyPacker
         # Create zip
         foreach ($files as $f) {
             @set_time_limit(300);
-            $fp = fopen($root . '/' . $f, 'wb');
+            $fp = fopen($dir . '/' . $f, 'wb');
 
             $zip = new fileZip($fp);
 
@@ -138,28 +109,4 @@ class tinyPacker
         );
         http::redirect($list->getURL());
     }
-
-    /**
-     * Check and create directories used by packer
-     * @return string|boolean      Cleaned path or false on error
-     */
-    public static function repositoryDir()
-    {
-        $dir = path::real(
-            dcCore::app()->blog->public_path . '/' . tinyPacker::$sub_dir,
-            false
-        );
-
-        try {
-            if (!is_dir($dir)) {
-                files::makeDir($dir, true);
-            }
-            if (is_writable($dir)) {
-                return $dir;
-            }
-        } catch(Exception $e) {
-        }
-
-        return false;
-    }
-}
+);
