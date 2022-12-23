@@ -1,3 +1,8 @@
+1.0 - 2022.12.23
+- use anonymous functions
+- use namesapce
+- use abstract plugin id
+
 0.5 - 2022.11.20
 - fix compatibility with Dotclear 2.24 (required)
 
