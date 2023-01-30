@@ -53,9 +53,8 @@ class Admin
             return false;
         }
 
-        dcCore::app()->addBehavior(
-            'adminModulesListGetActions',
-            function ($list, $id, $_) {
+        dcCore::app()->addBehaviors([
+            'adminModulesListGetActions' => function ($list, $id, $_) {
                 return in_array($list->getList(), [
                     'plugin-activate',
                     'theme-activate',
@@ -64,12 +63,8 @@ class Admin
                     basename(__DIR__),
                     html::escapeHTML($id)
                 ) : null;
-            }
-        );
-
-        dcCore::app()->addBehavior(
-            'adminModulesListDoActions',
-            function ($list, $modules, $type) {
+            },
+            'adminModulesListDoActions' => function ($list, $modules, $type) {
                 # Pack action
                 if (empty($_POST[basename(__DIR__)])
                  || !is_array($_POST[basename(__DIR__)])) {
@@ -143,8 +138,8 @@ class Admin
                     __('Task successfully executed.')
                 );
                 http::redirect($list->getURL());
-            }
-        );
+            },
+        ]);
 
         return true;
     }
