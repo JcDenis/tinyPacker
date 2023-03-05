@@ -33,7 +33,7 @@ use Exception;
  *
  * Add action and button to modules lists.
  */
-class Admin
+class Backend
 {
     private static $init = false;
 
@@ -60,14 +60,14 @@ class Admin
                     'theme-activate',
                 ]) ? sprintf(
                     '<input type="submit" name="%s[%s]" value="Pack" />',
-                    basename(__DIR__),
+                    self::id(),
                     html::escapeHTML($id)
                 ) : null;
             },
             'adminModulesListDoActions' => function ($list, $modules, $type) {
                 # Pack action
-                if (empty($_POST[basename(__DIR__)])
-                 || !is_array($_POST[basename(__DIR__)])) {
+                if (empty($_POST[self::id()])
+                 || !is_array($_POST[self::id()])) {
                     return null;
                 }
 
@@ -85,7 +85,7 @@ class Admin
                 }
 
                 # Module to pack
-                $modules = array_keys($_POST[basename(__DIR__)]);
+                $modules = array_keys($_POST[self::id()]);
                 $id      = $modules[0];
 
                 if (!$list->modules->moduleExists($id)) {
@@ -143,9 +143,9 @@ class Admin
 
         return true;
     }
-}
 
-/* process */
-if (Admin::init()) {
-    Admin::process();
+    private function id()
+    {
+        return basename(dirname(__DIR__));
+    }
 }
