@@ -1,3 +1,10 @@
+1.1 - 2023.03.21
+- require Dotclear 2.26
+- use dcNsProcess
+- use new Zip Helper
+- use new Behaviors methods
+- add translation
+
 1.0 - 2022.12.23
 - use anonymous functions
 - use namesapce
