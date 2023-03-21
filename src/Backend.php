@@ -15,13 +15,14 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\tinyPacker;
 
 /* dotclear */
+use adminModulesList;
 use dcCore;
 use dcNsProcess;
 use dcPage;
+use Dotclear\Helper\File\Zip\Zip;
 
 /* clearbricks */
 use files;
-use fileZip;
 use html;
 use http;
 use path;
@@ -36,9 +37,27 @@ use Exception;
  */
 class Backend extends dcNsProcess
 {
+    /** @var string Public packages folder */
+    public const TINYPACKER_DIR = 'packages';
+
+    /** @var array Excluded files and dirs */
+    public const TINYPACKER_EXCLUDE = [
+        '\.',
+        '\.\.',
+        '__MACOSX',
+        '\.svn',
+        '\.hg.*?',
+        '\.git.*?',
+        'CVS',
+        '\.directory',
+        '\.DS_Store',
+        'Thumbs\.db',
+        '_disabled',
+    ];
+
     public static function init(): bool
     {
-        static::$init = defined('DC_CONTEXT_ADMIN') && dcCOre::app()->auth->isSuperAdmin();
+        static::$init = defined('DC_CONTEXT_ADMIN') && dcCore::app()->auth->isSuperAdmin();
 
         return static::$init;
     }
@@ -50,7 +69,7 @@ class Backend extends dcNsProcess
         }
 
         dcCore::app()->addBehaviors([
-            'adminModulesListGetActions' => function ($list, $id, $_) {
+            'adminModulesListGetActions' => function (adminModulesList $list, string $id, array $_): string {
                 return in_array($list->getList(), [
                     'plugin-activate',
                     'theme-activate',
@@ -58,25 +77,24 @@ class Backend extends dcNsProcess
                     '<input type="submit" name="%s[%s]" value="Pack" />',
                     self::id(),
                     html::escapeHTML($id)
-                ) : null;
+                ) : '';
             },
-            'adminModulesListDoActions' => function ($list, $modules, $type) {
+            'adminModulesListDoActions' => function (adminModulesList $list, array $modules, string $type): void {
                 # Pack action
                 if (empty($_POST[self::id()])
                  || !is_array($_POST[self::id()])) {
-                    return null;
+                    return;
                 }
 
                 # Repository directory
-                $dir = path::real(
-                    dcCore::app()->blog->public_path . '/packages',
+                $dir = (string) path::real(
+                    dcCore::app()->blog->public_path . DIRECTORY_SEPARATOR . self::TINYPACKER_DIR,
                     false
                 );
-
-                if (!is_dir($dir)) {
+                if (!empty($dir) && !is_dir($dir)) {
                     files::makeDir($dir, true);
                 }
-                if (!is_writable($dir)) {
+                if (empty($dir) || !is_writable($dir)) {
                     throw new Exception(__('Destination directory is not writable.'));
                 }
 
@@ -89,21 +107,6 @@ class Backend extends dcNsProcess
                 }
                 $module = $list->modules->getModules($id);
 
-                # Excluded files and dirs
-                $exclude = [
-                    '\.',
-                    '\.\.',
-                    '__MACOSX',
-                    '\.svn',
-                    '\.hg.*?',
-                    '\.git.*?',
-                    'CVS',
-                    '\.directory',
-                    '\.DS_Store',
-                    'Thumbs\.db',
-                    '_disabled',
-                ];
-
                 # Packages names
                 $files = [
                     $type . '-' . $id . '.zip',
@@ -111,21 +114,19 @@ class Backend extends dcNsProcess
                 ];
 
                 # Create zip
-                foreach ($files as $f) {
+                foreach ($files as $file) {
                     @set_time_limit(300);
-                    $fp = fopen($dir . '/' . $f, 'wb');
 
-                    $zip = new fileZip($fp);
+                    $zip = new Zip($dir . '/' . $file);
 
-                    foreach ($exclude as $e) {
+                    foreach (self::TINYPACKER_EXCLUDE as $e) {
                         $zip->addExclusion(sprintf(
                             '#(^|/)(%s)(/|$)#',
                             $e
                         ));
                     }
 
-                    $zip->addDirectory($module['root'], $id, true);
-                    $zip->write();
+                    $zip->addDirectory((string) path::real($module['root']), $id, true);
                     $zip->close();
                     unset($zip);
                 }
@@ -140,7 +141,7 @@ class Backend extends dcNsProcess
         return true;
     }
 
-    private function id()
+    private static function id(): string
     {
         return basename(dirname(__DIR__));
     }
