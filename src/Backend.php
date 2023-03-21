@@ -16,6 +16,7 @@ namespace Dotclear\Plugin\tinyPacker;
 
 /* dotclear */
 use dcCore;
+use dcNsProcess;
 use dcPage;
 
 /* clearbricks */
@@ -33,23 +34,18 @@ use Exception;
  *
  * Add action and button to modules lists.
  */
-class Backend
+class Backend extends dcNsProcess
 {
-    private static $init = false;
-
     public static function init(): bool
     {
-        if (defined('DC_CONTEXT_ADMIN')) {
-            dcPage::checkSuper();
-            self::$init = true;
-        }
+        static::$init = defined('DC_CONTEXT_ADMIN') && dcCOre::app()->auth->isSuperAdmin();
 
-        return self::$init;
+        return static::$init;
     }
 
     public static function process(): bool
     {
-        if (!self::$init) {
+        if (!static::$init) {
             return false;
         }
 
