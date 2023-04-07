@@ -14,20 +14,15 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\tinyPacker;
 
-/* dotclear */
 use adminModulesList;
 use dcCore;
 use dcNsProcess;
 use dcPage;
+use Dotclear\Helper\File\Files;
+use Dotclear\Helper\File\Path;
 use Dotclear\Helper\File\Zip\Zip;
-
-/* clearbricks */
-use files;
-use html;
-use http;
-use path;
-
-/* php */
+use Dotclear\Helper\Html\Html;
+use Dotclear\Helper\Network\Http;
 use Exception;
 
 /**
@@ -76,7 +71,7 @@ class Backend extends dcNsProcess
                 ]) ? sprintf(
                     '<input type="submit" name="%s[%s]" value="Pack" />',
                     self::id(),
-                    html::escapeHTML($id)
+                    Html::escapeHTML($id)
                 ) : '';
             },
             'adminModulesListDoActions' => function (adminModulesList $list, array $modules, string $type): void {
@@ -87,12 +82,12 @@ class Backend extends dcNsProcess
                 }
 
                 # Repository directory
-                $dir = (string) path::real(
+                $dir = (string) Path::real(
                     dcCore::app()->blog->public_path . DIRECTORY_SEPARATOR . self::TINYPACKER_DIR,
                     false
                 );
                 if (!empty($dir) && !is_dir($dir)) {
-                    files::makeDir($dir, true);
+                    Files::makeDir($dir, true);
                 }
                 if (empty($dir) || !is_writable($dir)) {
                     throw new Exception(__('Destination directory is not writable.'));
@@ -126,7 +121,7 @@ class Backend extends dcNsProcess
                         ));
                     }
 
-                    $zip->addDirectory((string) path::real($module['root']), $id, true);
+                    $zip->addDirectory((string) Path::real($module['root']), $id, true);
                     $zip->close();
                     unset($zip);
                 }
@@ -134,7 +129,7 @@ class Backend extends dcNsProcess
                 dcPage::addSuccessNotice(
                     __('Task successfully executed.')
                 );
-                http::redirect($list->getURL());
+                Http::redirect($list->getURL());
             },
         ]);
 
