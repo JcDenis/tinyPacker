@@ -18,7 +18,7 @@ $this->registerModule(
     'Tiny packer',
     'Quick pack theme or plugin into public dir',
     'Jean-Christian Denis',
-    '1.1',
+    '1.1.1',
     [
         'requires'    => [['core', '2.26']],
         'permissions' => null,

@@ -1,3 +1,8 @@
+1.1.1 - 2023..04.23
+- require Dotclear 2.26
+- use latest dotclear namespace
+- fix nullsafe warnings
+
 1.1 - 2023.03.21
 - require Dotclear 2.26
 - use dcNsProcess
