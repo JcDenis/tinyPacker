@@ -52,7 +52,9 @@ class Backend extends dcNsProcess
 
     public static function init(): bool
     {
-        static::$init = defined('DC_CONTEXT_ADMIN') && dcCore::app()->auth->isSuperAdmin();
+        static::$init = defined('DC_CONTEXT_ADMIN')
+            && !is_null(dcCore::app()->auth)
+            && dcCore::app()->auth->isSuperAdmin();
 
         return static::$init;
     }
@@ -75,6 +77,11 @@ class Backend extends dcNsProcess
                 ) : '';
             },
             'adminModulesListDoActions' => function (adminModulesList $list, array $modules, string $type): void {
+                # nullsafe
+                if (is_null(dcCore::app()->blog)) {
+                    return;
+                }
+
                 # Pack action
                 if (empty($_POST[self::id()])
                  || !is_array($_POST[self::id()])) {
