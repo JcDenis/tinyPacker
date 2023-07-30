@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/v/release/JcDenis/tinyPacker)](https://github.com/JcDenis/tinyPacker/releases)
 [![Date](https://img.shields.io/github/release-date/JcDenis/tinyPacker)](https://github.com/JcDenis/tinyPacker/releases)
 [![Issues](https://img.shields.io/github/issues/JcDenis/tinyPacker)](https://github.com/JcDenis/tinyPacker/issues)
-[![Dotclear](https://img.shields.io/badge/dotclear-v2.26-blue.svg)](https://fr.dotclear.org/download)
+[![Dotclear](https://img.shields.io/badge/dotclear-v2.27-blue.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-green.svg)](https://plugins.dotaddict.org/dc2/details/tinyPacker)
 [![License](https://img.shields.io/github/license/JcDenis/tinyPacker)](https://github.com/JcDenis/tinyPacker/blob/master/LICENSE)
 
@@ -20,8 +20,9 @@ direct from Dotclear blog manager.
 _tinyPacker_ requires: 
 
  * Super administrator permissions
- * Dotclear 2.26
  * A writable public directory.
+ * Dotclear 2.27
+ * PHP 7.4+
 
 ## USAGE
 

@@ -14,23 +14,24 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\tinyPacker;
 
-use adminModulesList;
 use dcCore;
-use dcNsProcess;
-use dcPage;
+use Dotclear\Core\Process;
+use Dotclear\Core\Backend\ModulesList;
+use Dotclear\Core\Backend\Notices;
 use Dotclear\Helper\File\Files;
 use Dotclear\Helper\File\Path;
 use Dotclear\Helper\File\Zip\Zip;
+use Dotclear\Helper\Html\Form\Submit;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Exception;
 
 /**
- * tinyPacker admin class
+ * tinyPacker admin class.
  *
  * Add action and button to modules lists.
  */
-class Backend extends dcNsProcess
+class Backend extends Process
 {
     /** @var string Public packages folder */
     public const TINYPACKER_DIR = 'packages';
@@ -52,36 +53,23 @@ class Backend extends dcNsProcess
 
     public static function init(): bool
     {
-        static::$init = defined('DC_CONTEXT_ADMIN')
-            && !is_null(dcCore::app()->auth)
-            && dcCore::app()->auth->isSuperAdmin();
-
-        return static::$init;
+        return self::status(defined('DC_CONTEXT_ADMIN') && dcCore::app()->auth->isSuperAdmin());
     }
 
     public static function process(): bool
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return false;
         }
 
         dcCore::app()->addBehaviors([
-            'adminModulesListGetActions' => function (adminModulesList $list, string $id, array $_): string {
+            'adminModulesListGetActions' => function (ModulesList $list, string $id, array $_): string {
                 return in_array($list->getList(), [
                     'plugin-activate',
                     'theme-activate',
-                ]) ? sprintf(
-                    '<input type="submit" name="%s[%s]" value="Pack" />',
-                    self::id(),
-                    Html::escapeHTML($id)
-                ) : '';
+                ]) ? (new Submit([self::id() . '[' . Html::escapeHTML($id) . ']']))->value(__('Pack'))->render() : '';
             },
-            'adminModulesListDoActions' => function (adminModulesList $list, array $modules, string $type): void {
-                # nullsafe
-                if (is_null(dcCore::app()->blog)) {
-                    return;
-                }
-
+            'adminModulesListDoActions' => function (ModulesList $list, array $modules, string $type): void {
                 # Pack action
                 if (empty($_POST[self::id()])
                  || !is_array($_POST[self::id()])) {
@@ -104,22 +92,22 @@ class Backend extends dcNsProcess
                 $modules = array_keys($_POST[self::id()]);
                 $id      = $modules[0];
 
-                if (!$list->modules->moduleExists($id)) {
+                $module = $list->modules->getDefine($id);
+                if (!$module->isDefined()) {
                     throw new Exception(__('No such module.'));
                 }
-                $module = $list->modules->getModules($id);
 
                 # Packages names
                 $files = [
                     $type . '-' . $id . '.zip',
-                    $type . '-' . $id . '-' . $module['version'] . '.zip',
+                    $type . '-' . $id . '-' . $module->get('version') . '.zip',
                 ];
 
                 # Create zip
                 foreach ($files as $file) {
                     @set_time_limit(300);
-
-                    $zip = new Zip($dir . '/' . $file);
+                    $fp  = fopen($dir . DIRECTORY_SEPARATOR . $file, 'wb');
+                    $zip = new Zip($fp);
 
                     foreach (self::TINYPACKER_EXCLUDE as $e) {
                         $zip->addExclusion(sprintf(
@@ -128,12 +116,13 @@ class Backend extends dcNsProcess
                         ));
                     }
 
-                    $zip->addDirectory((string) Path::real($module['root']), $id, true);
+                    $zip->addDirectory((string) Path::real($module->get('root')), $id, true);
+                    $zip->write();
                     $zip->close();
-                    unset($zip);
+                    unset($zip, $fp);
                 }
 
-                dcPage::addSuccessNotice(
+                Notices::addSuccessNotice(
                     __('Task successfully executed.')
                 );
                 Http::redirect($list->getURL());
