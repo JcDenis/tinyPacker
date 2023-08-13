@@ -1,11 +1,10 @@
 # README
 
-[![Release](https://img.shields.io/github/v/release/JcDenis/tinyPacker)](https://github.com/JcDenis/tinyPacker/releases)
-[![Date](https://img.shields.io/github/release-date/JcDenis/tinyPacker)](https://github.com/JcDenis/tinyPacker/releases)
-[![Issues](https://img.shields.io/github/issues/JcDenis/tinyPacker)](https://github.com/JcDenis/tinyPacker/issues)
-[![Dotclear](https://img.shields.io/badge/dotclear-v2.27-blue.svg)](https://fr.dotclear.org/download)
-[![Dotaddict](https://img.shields.io/badge/dotaddict-official-green.svg)](https://plugins.dotaddict.org/dc2/details/tinyPacker)
-[![License](https://img.shields.io/github/license/JcDenis/tinyPacker)](https://github.com/JcDenis/tinyPacker/blob/master/LICENSE)
+[![Release](https://img.shields.io/badge/release-1.3-a2cbe9.svg)](https://git.dotclear.watch/JcDenis/tinyPacker/releases)
+[![Date](https://img.shields.io/badge/date-2023.08.13-c44d58.svg)](https://git.dotclear.watch/JcDenis/tinyPacker/releases)
+[![Dotclear](https://img.shields.io/badge/dotclear-v2.27-137bbb.svg)](https://fr.dotclear.org/download)
+[![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/tinyPacker)
+[![License](https://img.shields.io/github/license/JcDenis/tinyPacker)](https://git.dotclear.watch/JcDenis/tinyPacker/blob/master/LICENSE)
 
 ## WHAT IS tinyPacker ?
 
@@ -19,10 +18,10 @@ direct from Dotclear blog manager.
 
 _tinyPacker_ requires: 
 
- * Super administrator permissions
- * A writable public directory.
- * Dotclear 2.27
- * PHP 7.4+
+* Super administrator permissions
+* A writable public directory.
+* Dotclear 2.27
+* PHP 7.4+
 
 ## USAGE
 
@@ -35,12 +34,12 @@ and it's pack into current blog public directory.
 
 ## MORE
 
- * License : GNU GPL v2
- * Source & contribution : [GitHub Page](https://github.com/JcDenis/tinyPacker)
- * Packages & details : [Dotaddict Page](https://plugins.dotaddict.org/dc2/details/tinyPacker)
+* License : [GNU GPL v2](https://www.gnu.org/licenses/old-licenses/lgpl-2.0.html)
+* Source & contribution : [Gitea Page](https://git.dotclear.watch/JcDenis/tinyPacker) or [GitHub Page](https://github.com/JcDenis/tinyPacker)
+* Packages & details: [Gitea Page](https://git.dotclear.watch/JcDenis/tinyPacker/releases) or [Dotaddict Page](https://plugins.dotaddict.org/dc2/details/tinyPacker)
 
 ## CONTRIBUTORS
 
- * Jean-Christian Denis
+* Jean-Christian Denis
 
- You are welcome to contribute to this code.
+You are welcome to contribute to this code.

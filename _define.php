@@ -18,13 +18,13 @@ $this->registerModule(
     'Tiny packer',
     'Quick pack theme or plugin into public dir',
     'Jean-Christian Denis',
-    '1.2',
+    '1.3',
     [
         'requires'    => [['core', '2.27']],
         'permissions' => null,
         'type'        => 'plugin',
-        'support'     => 'https://github.com/JcDenis/' . basename(__DIR__),
-        'details'     => 'https://plugins.dotaddict.org/dc2/details/' . basename(__DIR__),
-        'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . basename(__DIR__) . '/master/dcstore.xml',
+        'support'     => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/issues',
+        'details'     => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/src/branch/master/README.md',
+        'repository'  => 'https://git.dotclear.watch/JcDenis/' . basename(__DIR__) . '/raw/branch/master/dcstore.xml',
     ]
 );
