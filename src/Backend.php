@@ -33,27 +33,9 @@ use Exception;
  */
 class Backend extends Process
 {
-    /** @var string Public packages folder */
-    public const TINYPACKER_DIR = 'packages';
-
-    /** @var array Excluded files and dirs */
-    public const TINYPACKER_EXCLUDE = [
-        '\.',
-        '\.\.',
-        '__MACOSX',
-        '\.svn',
-        '\.hg.*?',
-        '\.git.*?',
-        'CVS',
-        '\.directory',
-        '\.DS_Store',
-        'Thumbs\.db',
-        '_disabled',
-    ];
-
     public static function init(): bool
     {
-        return self::status(defined('DC_CONTEXT_ADMIN') && dcCore::app()->auth->isSuperAdmin());
+        return self::status(My::checkContext(My::BACKEND));
     }
 
     public static function process(): bool
@@ -67,18 +49,18 @@ class Backend extends Process
                 return in_array($list->getList(), [
                     'plugin-activate',
                     'theme-activate',
-                ]) ? (new Submit([self::id() . '[' . Html::escapeHTML($id) . ']']))->value(__('Pack'))->render() : '';
+                ]) ? (new Submit([My::id() . '[' . Html::escapeHTML($id) . ']']))->value(__('Pack'))->render() : '';
             },
             'adminModulesListDoActions' => function (ModulesList $list, array $modules, string $type): void {
                 # Pack action
-                if (empty($_POST[self::id()])
-                 || !is_array($_POST[self::id()])) {
+                if (empty($_POST[My::id()])
+                 || !is_array($_POST[My::id()])) {
                     return;
                 }
 
                 # Repository directory
                 $dir = (string) Path::real(
-                    dcCore::app()->blog->public_path . DIRECTORY_SEPARATOR . self::TINYPACKER_DIR,
+                    dcCore::app()->blog->public_path . DIRECTORY_SEPARATOR . My::TINYPACKER_DIR,
                     false
                 );
                 if (!empty($dir) && !is_dir($dir)) {
@@ -89,7 +71,7 @@ class Backend extends Process
                 }
 
                 # Module to pack
-                $modules = array_keys($_POST[self::id()]);
+                $modules = array_keys($_POST[My::id()]);
                 $id      = $modules[0];
 
                 $module = $list->modules->getDefine($id);
@@ -109,7 +91,7 @@ class Backend extends Process
                     $fp  = fopen($dir . DIRECTORY_SEPARATOR . $file, 'wb');
                     $zip = new Zip($fp);
 
-                    foreach (self::TINYPACKER_EXCLUDE as $e) {
+                    foreach (My::TINYPACKER_EXCLUDE as $e) {
                         $zip->addExclusion(sprintf(
                             '#(^|/)(%s)(/|$)#',
                             $e
@@ -130,10 +112,5 @@ class Backend extends Process
         ]);
 
         return true;
-    }
-
-    private static function id(): string
-    {
-        return basename(dirname(__DIR__));
     }
 }
