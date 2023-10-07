@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\tinyPacker;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Process;
 use Dotclear\Core\Backend\ModulesList;
 use Dotclear\Core\Backend\Notices;
@@ -44,7 +44,7 @@ class Backend extends Process
             return false;
         }
 
-        dcCore::app()->addBehaviors([
+        App::behavior()->addBehaviors([
             'adminModulesListGetActions' => function (ModulesList $list, string $id, array $_): string {
                 return in_array($list->getList(), [
                     'plugin-activate',
@@ -60,7 +60,7 @@ class Backend extends Process
 
                 # Repository directory
                 $dir = (string) Path::real(
-                    dcCore::app()->blog->public_path . DIRECTORY_SEPARATOR . My::TINYPACKER_DIR,
+                    App::blog()->publicPath() . DIRECTORY_SEPARATOR . My::TINYPACKER_DIR,
                     false
                 );
                 if (!empty($dir) && !is_dir($dir)) {
