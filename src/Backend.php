@@ -1,15 +1,5 @@
 <?php
-/**
- * @brief tinyPacker, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugin
- *
- * @author Jean-Christian Denis
- *
- * @copyright Jean-Christian Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\tinyPacker;
@@ -27,9 +17,14 @@ use Dotclear\Helper\Network\Http;
 use Exception;
 
 /**
- * tinyPacker admin class.
+ * @brief   tinyPacker admin class.
+ * @ingroup tinyPacker
  *
  * Add action and button to modules lists.
+ *
+ * @author      Jean-Christian Denis
+ * @copyright   Jean-Christian Denis
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 class Backend extends Process
 {
@@ -49,7 +44,7 @@ class Backend extends Process
                 return in_array($list->getList(), [
                     'plugin-activate',
                     'theme-activate',
-                ]) ? (new Submit([My::id() . '[' . Html::escapeHTML($id) . ']']))->value(__('Pack'))->render() : '';
+                ]) ? (new Submit([My::id() . '[' . Html::escapeHTML($id) . ']']))->__call('value', [__('Pack')])->render() : '';
             },
             'adminModulesListDoActions' => function (ModulesList $list, array $modules, string $type): void {
                 # Pack action

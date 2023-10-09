@@ -19,10 +19,18 @@ use Dotclear\Module\MyPlugin;
 
 class My extends MyPlugin
 {
-    /** @var string Public packages folder */
+    /**
+     * Public packages folder.
+     *
+     * @var     string  TINYPACKER_DIR
+     */
     public const TINYPACKER_DIR = 'packages';
 
-    /** @var array Excluded files and dirs */
+    /**
+     * Excluded files and dirs.
+     *
+     * @var     array<int,string>   TINYPACKER_EXCLUDE
+     */
     public const TINYPACKER_EXCLUDE = [
         '\.',
         '\.\.',
@@ -39,6 +47,7 @@ class My extends MyPlugin
 
     public static function checkCustomContext(int $context): ?bool
     {
-        return defined('DC_CONTEXT_ADMIN') && App::auth()->isSuperAdmin();
+        // Only backend and super admin
+        return $context === self::INSTALL ? null : App::task()->checkContext('BACKEND') && App::auth()->isSuperAdmin();
     }
 }
