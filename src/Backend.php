@@ -23,7 +23,6 @@ use Exception;
  * Add action and button to modules lists.
  *
  * @author      Jean-Christian Denis
- * @copyright   Jean-Christian Denis
  * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 class Backend extends Process
@@ -69,7 +68,7 @@ class Backend extends Process
                 $modules = array_keys($_POST[My::id()]);
                 $id      = $modules[0];
 
-                $module = $list->modules->getDefine($id);
+                $module = $list->modules->getDefine((string) $id);
                 if (!$module->isDefined()) {
                     throw new Exception(__('No such module.'));
                 }
@@ -93,7 +92,7 @@ class Backend extends Process
                         ));
                     }
 
-                    $zip->addDirectory((string) Path::real($module->get('root')), $id, true);
+                    $zip->addDirectory((string) Path::real($module->get('root')), (string) $id, true);
                     $zip->write();
                     $zip->close();
                     unset($zip, $fp);

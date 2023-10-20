@@ -1,7 +1,7 @@
 # README
 
-[![Release](https://img.shields.io/badge/release-1.4.1-a2cbe9.svg)](https://git.dotclear.watch/JcDenis/tinyPacker/releases)
-![Date](https://img.shields.io/badge/date-2023.10.07-c44d58.svg)
+[![Release](https://img.shields.io/badge/release-1.4.2-a2cbe9.svg)](https://git.dotclear.watch/JcDenis/tinyPacker/releases)
+![Date](https://img.shields.io/badge/date-2023.10.20-c44d58.svg)
 [![Dotclear](https://img.shields.io/badge/dotclear-v2.28-137bbb.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/tinyPacker)
 [![License](https://img.shields.io/badge/license-GPL--2.0-ececec.svg)](https://git.dotclear.watch/JcDenis/tinyPacker/src/branch/master/LICENSE)
@@ -16,8 +16,8 @@ _tinyPacker_ is a plugin for the open-source web publishing software called [Dot
 
 * Dotclear 2.28
 * PHP 8.1+
-* Super administrator permissions
-* A writable public directory.
+* System writable public directory
+* Dotlear super admin permissions
 
 ## USAGE
 
@@ -37,6 +37,6 @@ and it's pack into current blog public directory.
 
 ## CONTRIBUTORS
 
-* Jean-Christian Denis
+* Jean-Christian Denis (author)
 
 You are welcome to contribute to this code.

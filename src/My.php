@@ -1,15 +1,5 @@
 <?php
-/**
- * @brief tinyPacker, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugin
- *
- * @author Jean-Christian Denis
- *
- * @copyright Jean-Christian Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\tinyPacker;
@@ -17,6 +7,13 @@ namespace Dotclear\Plugin\tinyPacker;
 use Dotclear\App;
 use Dotclear\Module\MyPlugin;
 
+/**
+ * @brief   tinyPacker My helper.
+ * @ingroup tinyPacker
+ *
+ * @author      Jean-Christian Denis
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
 class My extends MyPlugin
 {
     /**
@@ -48,6 +45,9 @@ class My extends MyPlugin
     public static function checkCustomContext(int $context): ?bool
     {
         // Only backend and super admin
-        return $context === self::INSTALL ? null : App::task()->checkContext('BACKEND') && App::auth()->isSuperAdmin();
+        return match ($context) {
+            self::MODULE => App::task()->checkContext('BACKEND') && App::auth()->isSuperAdmin(),
+            default      => null,
+        };
     }
 }
