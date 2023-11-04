@@ -17,8 +17,8 @@ use Dotclear\Helper\Network\Http;
 use Exception;
 
 /**
- * @brief   tinyPacker admin class.
- * @ingroup tinyPacker
+ * @brief       tinyPacker admin class.
+ * @ingroup     tinyPacker
  *
  * Add action and button to modules lists.
  *
