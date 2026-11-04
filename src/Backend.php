@@ -45,12 +45,12 @@ class Backend
                 return in_array($list->getList(), [
                     'plugin-activate',
                     'theme-activate',
-                ]) ? (new Submit([My::id() . '[' . Html::escapeHTML($id) . ']']))->__call('value', [__('Pack')])->render() : '';
+                ]) ? (new Submit([My::id() . '[' . Html::escapeHTML($id) . ']'], __('Pack')))->render() : '';
             },
             'adminModulesListDoActions' => function (ModulesList $list, array $modules, string $type): void {
                 # Pack action
-                if (empty($_POST[My::id()])
-                 || !is_array($_POST[My::id()])) {
+                $post = $_POST[My::id()] ?? null;
+                if (empty($post) || !is_array($post)) {
                     return;
                 }
 
@@ -67,7 +67,7 @@ class Backend
                 }
 
                 # Module to pack
-                $modules = array_keys($_POST[My::id()]);
+                $modules = array_keys($post);
                 $id      = $modules[0];
 
                 $module = $list->modules->getDefine((string) $id);
@@ -78,7 +78,7 @@ class Backend
                 # Packages names
                 $files = [
                     $type . '-' . $id . '.zip',
-                    $type . '-' . $id . '-' . $module->get('version') . '.zip',
+                    $type . '-' . $id . '-' . (is_string($version = $module->get('version')) ? $version : '0') . '.zip',
                 ];
 
                 # Create zip
@@ -94,7 +94,7 @@ class Backend
                         ));
                     }
 
-                    $zip->addDirectory((string) Path::real($module->get('root')), (string) $id, true);
+                    $zip->addDirectory((string) Path::real(is_string($root = $module->get('root')) ? $root : ''), (string) $id, true);
                     $zip->write();
                     $zip->close();
                     unset($zip, $fp);
