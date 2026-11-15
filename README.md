@@ -12,6 +12,8 @@ _tinyPacker_ is a plugin for the open-source web publishing software called [Dot
 
 > One button packager for plugins and themes direct from Dotclear blog manager.
 
+A [user guide in French](https://github.com/JcDenis/tinyPacker/blob/master/docs/fr/utilisation.md) is available.
+
 ## REQUIREMENTS
 
 * Dotclear 2.39
@@ -36,6 +38,7 @@ Hidden files and folders (.git, .github, .htaccess, …) are not packed.
 
 ## MORE
 
+* [User guide (in French)](https://github.com/JcDenis/tinyPacker/blob/master/docs/fr/utilisation.md)
 * [License](https://github.com/JcDenis/tinyPacker/blob/master/LICENSE)
 * [Packages & details](https://github.com/JcDenis/tinyPacker/releases) (or on [Repository](https://dotclear.org/plugin/detail/tinyPacker))
 * [Sources & contributions](https://github.com/JcDenis/tinyPacker)
