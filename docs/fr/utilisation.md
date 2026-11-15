@@ -50,7 +50,7 @@ Récupérez-les avec votre client FTP, ou depuis le navigateur à l'adresse `htt
 ## Bon à savoir
 
 * Le dossier `packages` est créé automatiquement. S'il n'est pas accessible en écriture, le message « Le répertoire de destination n'est pas accessible en écriture. » s'affiche.
-* Ne sont pas inclus dans l'archive : les fichiers et dossiers cachés (commençant par un point), les dossiers `.git`, `.svn`, `CVS`, les fichiers `.DS_Store` et `Thumbs.db`, et les dossiers `_disabled`.
+* Ne sont pas inclus dans l'archive : les éléments dont le nom commence par `.git`, `.hg` ou `.svn` (dont `.github` et `.gitignore`), `CVS`, `__MACOSX`, `.directory`, `.DS_Store`, `Thumbs.db`, et les dossiers `_disabled`. Les autres fichiers cachés, comme `.htaccess`, sont inclus.
 * Tout le reste est inclus : documentation, captures d'écran, fichiers de test, etc.
 * Les archives du dossier `packages` sont publiques : n'y laissez pas un module privé.
 * Pour un travail plus complet (plusieurs modules, versions, dépôt), voir le plugin pacKman.
