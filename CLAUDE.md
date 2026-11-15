@@ -23,7 +23,7 @@ Required Dotclear and PHP versions: see `_define.php`.
 
 ## Pitfalls
 
-* None recorded yet: add here the traps met while working on the module.
+* Packages are written in the blog public directory (`public/packages`), so they can be downloaded without authentication: this is wanted, keep it documented in README.
 
 ## Testing
 

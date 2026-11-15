@@ -21,12 +21,18 @@ _tinyPacker_ is a plugin for the open-source web publishing software called [Dot
 
 ## USAGE
 
-First install _tinyPacker_, manualy from a zip package or from 
+First install _tinyPacker_, manually from a zip package or from 
 Dotclear plugins repository. (See Dotclear's documentation to know how do this)
 
-Go to ''plugins manager'' or ''themes manager'', 
-a new button ''Pack'' appears, just click it 
-and it's pack into current blog public directory.
+Go to ''plugins manager'' or ''themes manager'',
+a new button ''Pack'' appears on enabled and disabled modules, just click it
+and it's pack into current blog public directory, in folder ''packages''.
+
+Two packages are made: ''type-id.zip'' (replaced on each pack) and
+''type-id-version.zip''. Packages of older versions of the module are removed.
+Hidden files and folders (.git, .github, .htaccess, …) are not packed.
+
+!!! Packages are in the public directory: anyone who knows their address can download them !!!
 
 ## MORE
 
