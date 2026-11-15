@@ -21,7 +21,7 @@ $this->registerModule(
     'Tiny packer',
     'Quick pack theme or plugin into public dir',
     'Jean-Christian Denis',
-    '1.6',
+    '1.7',
     [
         'requires'    => [['core', '2.39']],
         'permissions' => 'My',
@@ -29,6 +29,6 @@ $this->registerModule(
         'support'     => 'https://github.com/JcDenis/' . $this->id . '/issues',
         'details'     => 'https://github.com/JcDenis/' . $this->id . '/',
         'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . $this->id . '/master/dcstore.xml',
-        'date'        => '2026-11-04T23:34:24+00:00',
+        'date'        => '2026-11-15T15:00:07+00:00',
     ]
 );

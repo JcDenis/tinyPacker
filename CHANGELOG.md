@@ -1,3 +1,12 @@
+tinyPacker 1.7 - 2026.11.15
+===========================================================
+* Fix DA URLs
+* Add Claude to contributors
+* [fix] Pack disabled modules too, report packages with links, remove older versions, exclude hidden files, check file opening, keep list filter
+* [lang] New French translations
+* [docs] README: packages names, exclusions and public access
+* [docs] Add a user guide in French, with screenshots
+
 tinyPacker 1.6 - 2026.11.05
 ===========================================================
 * Bump Dotclear from 2.36 to 2.39
