@@ -29,15 +29,10 @@ class My extends MyPlugin
      * @var     array<int,string>   TINYPACKER_EXCLUDE
      */
     public const TINYPACKER_EXCLUDE = [
-        '\.',
-        '\.\.',
+        // All hidden files and directories (.git*, .github, .hg*, .svn, .htaccess, .DS_Store, …)
+        '\..*?',
         '__MACOSX',
-        '\.svn',
-        '\.hg.*?',
-        '\.git.*?',
         'CVS',
-        '\.directory',
-        '\.DS_Store',
         'Thumbs\.db',
         '_disabled',
     ];
