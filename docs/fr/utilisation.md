@@ -1,6 +1,6 @@
 # tinyPacker : guide d'utilisation
 
-tinyPacker ajoute un bouton « Pack » aux gestionnaires d'extensions et de thèmes. Un clic crée l'archive zip du module, prête à être installée ailleurs ou envoyée à quelqu'un.
+tinyPacker ajoute un bouton « Empaqueter » aux gestionnaires d'extensions et de thèmes. Un clic crée l'archive zip du module, prête à être installée ailleurs ou envoyée à quelqu'un.
 
 Le plugin n'a pas de page d'administration. Il est réservé aux super-administrateurs.
 
@@ -14,25 +14,23 @@ Le plugin n'a pas de page d'administration. Il est réservé aux super-administr
 ## Empaqueter un plugin
 
 1. Ouvrez « Plugins » dans le menu « Système ».
-2. Dans la liste des plugins activés, repérez la ligne du plugin voulu.
-3. Cliquez sur « Pack » à droite de la ligne.
+2. Dans la liste des plugins activés ou désactivés, repérez la ligne du plugin voulu.
+3. Cliquez sur « Empaqueter » à droite de la ligne.
 
-![Le bouton Pack sur la ligne d'un plugin](img/plugins-bouton-empaqueter.png)
+![Le bouton Empaqueter sur la ligne d'un plugin](img/plugins-bouton-empaqueter.png)
 
-Le message « La tâche a été exécutée. » confirme que les archives sont créées.
+Le message « Paquets créés dans le répertoire public du blog : » confirme que les archives sont créées, avec un lien vers chacune. Il indique aussi les archives remplacées et les archives d'anciennes versions supprimées.
 
 ![Le message de réussite](img/message-reussite.png)
-
-Le bouton n'existe que pour les plugins activés. Pour empaqueter un plugin désactivé, activez-le d'abord.
 
 ## Empaqueter un thème
 
 1. Ouvrez « Thèmes du blog » dans le menu « Blog ».
-2. Sur la fiche du thème voulu, cliquez sur « Pack ».
+2. Sur la fiche du thème voulu, cliquez sur « Empaqueter ».
 
-![Le bouton Pack sur la fiche d'un thème](img/themes-bouton-empaqueter.png)
+![Le bouton Empaqueter sur la fiche d'un thème](img/themes-bouton-empaqueter.png)
 
-Même message de confirmation. Le bouton n'existe pas pour les thèmes qui ne sont pas installés sur ce blog.
+Même message de confirmation.
 
 ## Récupérer l'archive
 
@@ -43,14 +41,14 @@ Chaque clic crée deux fichiers dans le dossier `packages` du répertoire public
 
 Par exemple : `plugin-blogroll-2.1.zip`.
 
-Récupérez-les avec votre client FTP, ou depuis le navigateur à l'adresse `https://votre-blog/public/packages/plugin-blogroll.zip`.
+Téléchargez-les avec les liens du message de confirmation, avec votre client FTP, ou depuis le navigateur à l'adresse `https://votre-blog/public/packages/plugin-blogroll.zip`.
 
-À chaque nouveau clic, les archives de même nom sont remplacées.
+À chaque nouveau clic, les archives de même nom sont remplacées, et les archives des anciennes versions du module sont supprimées.
 
 ## Bon à savoir
 
-* Le dossier `packages` est créé automatiquement. S'il n'est pas accessible en écriture, le message « Le répertoire de destination n'est pas accessible en écriture. » s'affiche.
-* Ne sont pas inclus dans l'archive : les éléments dont le nom commence par `.git`, `.hg` ou `.svn` (dont `.github` et `.gitignore`), `CVS`, `__MACOSX`, `.directory`, `.DS_Store`, `Thumbs.db`, et les dossiers `_disabled`. Les autres fichiers cachés, comme `.htaccess`, sont inclus.
+* Le dossier `packages` est créé automatiquement. S'il n'est pas accessible en écriture, le message « Le répertoire de destination n'est pas accessible en écriture. » s'affiche. Si une archive ne peut pas être écrite, le message « Impossible d'écrire le paquet » donne son nom.
+* Ne sont pas inclus dans l'archive : tous les fichiers et dossiers cachés (dont le nom commence par un point : `.git`, `.github`, `.htaccess`, `.DS_Store`…), `CVS`, `__MACOSX`, `Thumbs.db` et les dossiers `_disabled`.
 * Tout le reste est inclus : documentation, captures d'écran, fichiers de test, etc.
 * Les archives du dossier `packages` sont publiques : n'y laissez pas un module privé.
 * Pour un travail plus complet (plusieurs modules, versions, dépôt), voir le plugin pacKman.
